@@ -1,0 +1,546 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 90px;
+    font-size: 14px;
+    margin: 0;
+    background: #14283f;
+    color: #d0d0d0;
+    font-family: sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 12px 0;
+}
+
+a,
+a:hover {
+    color: #e6c826;
+}
+
+h1 {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+h2 {
+    margin-bottom: 0;
+    margin-top: 6px;
+}
+h2 + p {
+    margin-top: 0;
+}
+
+hr {
+    margin: 14px 0;
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.icon-reload {
+    cursor: pointer;
+    vertical-align: middle;
+    display: inline-block;
+    padding: 0 6px;
+}
+.icon-reload img {
+    width: 20px;
+}
+
+.asset-text {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-left: 4px;
+}
+
+.asset-wrap {
+    background-color: rgb(23, 34, 46);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: absolute;
+    border-radius: 29px;
+    padding: 1px;
+    padding-right: 16px;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+}
+
+.asset-selected {
+    display: flex;
+    align-items: center;
+    padding: 1px;
+    padding-right: 8px;
+}
+
+.denomination {
+    margin-left: 5px;
+}
+
+.fees-dyn {
+    display: flex;
+    justify-content: center;
+}
+.fees-dyn > * {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+}
+.fees-dyn,
+.icons > div {
+    position: relative;
+    text-align: right;
+}
+.icons > div {
+    margin: 9px 0;
+}
+
+#invoice-qr {
+    width: 66.666%;
+}
+
+#invoiceLabel {
+    display: block;
+    margin-bottom: 6px;
+}
+[data-reverse="false"] #onchainAddress,
+[data-reverse="true"] #invoiceLabel,
+[data-reverse="true"] #invoice {
+    display: none;
+}
+
+#reverse input {
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+}
+
+.btn {
+    cursor: pointer;
+    display: block;
+    margin: 3px 3px;
+    margin-top: 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 16px;
+    background-color: #e6c826;
+    color: #14283f;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    width: 100%;
+}
+
+.btn:disabled:hover,
+.btn:disabled {
+    background-color: #545c65;
+    cursor: not-allowed;
+}
+
+.btn-small {
+    background-color: #e6c826;
+    color: #14283f;
+    border-radius: 7px;
+    padding: 1px 6px;
+    cursor: pointer;
+}
+
+[data-status="swap.expired"] .btn-small,
+[data-status="invoice.expired"] .btn-small,
+[data-status="invoice.failedToPay"] .btn-small,
+[data-status="transaction.refunded"] .btn-small,
+[data-status="transaction.lockupFailed"] .btn-small {
+    background-color: darkred;
+    color: #fff;
+}
+[data-status="swap.expired"] .btn-success,
+[data-status="invoice.settled"] .btn-small,
+[data-status="transaction.confirmed"] .btn-small,
+[data-status="transaction.claimed"] .btn-small {
+    background-color: #246c24;
+    color: #fff;
+}
+
+.tag .btn {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.btn-small:hover,
+.btn:hover,
+.tag .btn:hover {
+    background-color: #fff;
+    color: #14283f;
+}
+
+.btn-light {
+    color: white;
+    background-color: rgb(11, 22, 35);
+}
+.btn-light:hover {
+    background-color: #e6c826;
+}
+.btn-explorer {
+    background: #533180;
+    color: white;
+}
+.btn-explorer:hover {
+    background: white;
+    color: #533180;
+}
+
+.btn-success {
+    background-color: #246c24;
+    color: white;
+}
+.btn-success:hover {
+    background-color: #fff;
+}
+.btn-danger {
+    background-color: #8b000085;
+    color: white;
+}
+.btn-danger:hover {
+    background: darkred;
+}
+.btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btns > * {
+    display: inline-block;
+    width: auto;
+}
+
+.fee {
+    padding: 0 24px;
+}
+
+.fees {
+    display: flex;
+    justify-content: space-between;
+}
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+textarea {
+    resize: none;
+}
+
+input,
+textarea {
+    color: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 2px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+input:focus,
+textarea:focus {
+    outline: none;
+    color: #ddd;
+    border-color: #e6c826;
+}
+input:invalid,
+textarea:invalid {
+    outline: none;
+    color: #ddd;
+    border-color: darkred;
+}
+.fees-dyn label {
+    display: block;
+}
+#receiveAmount,
+#sendAmount {
+    font-size: 36px;
+    text-align: right;
+}
+textarea {
+    min-height: 198px;
+}
+
+#refundAddress {
+    margin: 16px 0;
+}
+
+#steps {
+    padding: 0 12px;
+}
+#steps > .frame > div {
+    display: none;
+}
+
+#steps > .frame > .active {
+    display: block;
+}
+
+#notification {
+    background: black;
+    color: white;
+}
+.denomination img {
+    filter: brightness(10);
+    cursor: pointer;
+    width: 28px;
+}
+.denominator {
+    filter: brightness(10);
+    width: 15px;
+    height: 11px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    transform: scale(2.1);
+    background-position: right;
+}
+.denominator-big {
+    width: 33px;
+    height: 30px;
+    transform: scale(1.5);
+}
+
+[data-denominator="btc"] {
+    background-image: url(../assets/btc.svg);
+}
+[data-denominator="sat"] {
+    background-image: url(../assets/sat.svg);
+}
+
+.denomination .active {
+    filter: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.frame {
+    color: #fff;
+    background: #0003;
+    padding: 12px;
+    max-width: 480px;
+    margin: 21px auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    position: relative;
+}
+
+.error {
+    background: #ff000052;
+    color: #ddd;
+    padding: 6px 10px;
+    display: inline-block;
+}
+
+.spinner {
+    margin: 32px auto;
+    text-align: center;
+}
+.spinner > div {
+    width: 26px;
+    height: 26px;
+    margin: 0 7px;
+    background-color: #fff;
+
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+@-webkit-keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+    }
+}
+@keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+#flip-assets {
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    background: rgb(11, 22, 35);
+    margin: -21px auto;
+    border: 1px dashed rgb(55, 55, 55);
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
+}
+#flip-assets:hover {
+    background: rgb(20, 40, 63);
+}
+
+#flip-assets img {
+    width: 100%;
+    opacity: 0.5;
+}
+
+.arrow-down {
+    border: solid white;
+    display: inline-block;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 4px;
+    margin-left: 8px;
+    position: relative;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    top: -2px;
+}
+
+.asset-select {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 29px;
+    padding: 1px;
+    padding-right: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    text-transform: uppercase;
+    margin: 6px;
+}
+.asset-select:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+.assets-select {
+    background: #102032;
+    position: absolute;
+    width: 454px;
+    top: 64px;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 0 12px black;
+}
+.assets-select.active {
+    display: block;
+}
+.assets-select:after {
+    content: "";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+#close {
+    cursor: pointer;
+    transform: rotate(45deg);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 400ms;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    z-index: 1000;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+#close .line {
+    fill: none;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+    stroke: #fff;
+    stroke-width: 5.5;
+    stroke-linecap: round;
+}
+#close .top {
+    stroke-dashoffset: -68px;
+    stroke-dasharray: 40 121;
+}
+#close .bottom {
+    stroke-dashoffset: -68px;
+    stroke-dasharray: 40 121;
+}
+.btn-inline {
+    display: inline-block;
+    width: auto;
+}
+.network-fee,
+.boltz-fee {
+    margin-right: 4px;
+}
+
+#offline,
+#noWasm {
+    background: darkred;
+    margin-top: 5px;
+    font-size: 18px;
+    padding: 5px 0;
+    border-radius: 16px;
+}
+
+.external {
+    padding-right: 30px;
+    padding-right: 25px;
+    background-image: url(../assets/external_link.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 17px;
+}
