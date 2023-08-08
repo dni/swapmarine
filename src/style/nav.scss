@@ -1,0 +1,11 @@
+@import "vars";
+nav {
+    background-color: darken($background, 4%);
+    a {
+        display: inline-block;
+        padding: 12px 12px;
+        font-size: 24px;
+        color: $color;
+        text-transform: uppercase;
+    }
+}

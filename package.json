@@ -34,6 +34,8 @@
     "@solidjs/router": "^0.8.2",
     "@vulpemventures/secp256k1-zkp": "^3.1.0",
     "bignumber.js": "^9.1.1",
+    "bip32": "^4.0.0",
+    "bip39": "^3.1.0",
     "bitcoinjs-lib": "^6.1.2",
     "bolt11": "^1.4.1",
     "boltz-core": "^1.0.1",
@@ -44,6 +46,7 @@
     "loglevel": "^1.8.1",
     "qr-scanner": "^1.4.2",
     "qrcode": "^1.5.0",
+    "slip77": "^0.2.0",
     "solid-js": "^1.7.0"
   }
 }
