@@ -1,4 +1,4 @@
-import "../css/submarine.scss";
+import "../style/submarine.scss";
 const Submarine = () => {
     return (
         <div class="sea">

@@ -9,7 +9,7 @@ import Overview from "./Overview";
 import { loglevel } from "./config";
 import { checkWasmSupported } from "./utils/wasmSupport";
 import dict from "./i18n";
-import "./css/index.css";
+import "./style/index.scss";
 
 log.setLevel(loglevel);
 
