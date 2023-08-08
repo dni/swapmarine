@@ -5,19 +5,13 @@ import { useParams, A } from "@solidjs/router";
 import { networks, payments, } from 'liquidjs-lib'
 import { bip32, slip77 } from './ecpair/ecpair'
 import { generateMnemonic, mnemonicToSeed } from 'bip39'
-import Submarine from "./components/Submarine.jsx";
 
 const regtest = networks.regtest
 
 const [mnemonic, setMnemonic] = createSignal(null);
-// const [mnemonic, setMnemonic] = createStorageSignal("mnemonic", null);
 const [seed, setSeed] = createSignal(null);
-// const [seed, setSeed] = createStorageSignal("seed", null);
-const [address, setAddress] = createStorageSignal("address", null);
 const [addresses, setAddresses] = createSignal([]);
 const [addressIndex, setAddressIndex] = createStorageSignal("addressIndex", 0);
-const [blindingPublicKey, setBlindingPublicKey] = createStorageSignal("blindingPublicKey", null);
-const [blindingPrivateKey, setBlindingPrivateKey] = createStorageSignal("blindingPrivateKey", null);
 
 const create_seed = async () => {
     try {
@@ -53,6 +47,7 @@ const Addresses = () => {
                 i: i,
                 derivePath: derivePath + i,
                 p2wpkh: p2wpkh.address,
+                confidentialAdress: p2wpkh.confidentialAddress,
                 blindingPublicKey: blindingKeyPair.publicKey,
                 blindingPrivateKey: blindingKeyPair.privateKey,
             });
@@ -68,6 +63,7 @@ const Addresses = () => {
                     <div class="address">
                         <p>Address #{address.i}: {address.p2wpkh}</p>
                         <p>Derive Path: {address.derivePath}</p>
+                        <p>Confidential Address: {address.confidentialAdress}</p>
                         <p>Blinding Public Key: {address.blindingPublicKey.toString("hex")}</p>
                         <p>Blinding Private Key: {address.blindingPrivateKey.toString("hex")}</p>
                     </div>
