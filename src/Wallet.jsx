@@ -5,6 +5,7 @@ import { useParams, A } from "@solidjs/router";
 import { networks, payments, } from 'liquidjs-lib'
 import { bip32, slip77 } from './ecpair/ecpair'
 import { generateMnemonic, mnemonicToSeed } from 'bip39'
+import Submarine from "./components/Submarine.jsx";
 
 const regtest = networks.regtest
 
@@ -104,6 +105,7 @@ const Receive = () => {
 const Navigation = () => {
     return (
         <nav>
+            <A href="/">home</A>
             <A href="/wallet">Overview</A>
             <A href="/wallet/receive">Receive</A>
             <A href="/wallet/send">Send</A>

@@ -1,10 +1,11 @@
 $color1: #14283f;
 $color2: #e6a426;
 
+// $width:
+$size: 266px;
+
 body {
     background-color: $color1;
-
-
 }
 
 *, *:before, *:after {
@@ -48,8 +49,8 @@ body {
     .circle-wrapper {
         position: relative;
         background: linear-gradient(darken($color1, 3%), darken($color1, 12%));
-        width:266px;
-        height:266px;
+        width: $size;
+        height: $size;
         margin: 10px auto 0 auto;
         overflow: hidden;
         z-index: 0;
@@ -59,8 +60,8 @@ body {
     }
 
     .submarine-wrapper {
-        width:266px;
-        height:266px;
+        width: $size;
+        height: $size;
         padding: 30px 50px 30px 150px;
         margin: 0 auto 0 auto;
         animation: diving 3s ease-in-out infinite, diving-rotate 3s ease-in-out infinite;
@@ -83,6 +84,7 @@ body {
                 border-style: solid;
                 border-width: 0 40px 150px 40px;
                 border-color: transparent transparent lighten($color1,5%) transparent;
+                border-radius: 30%;
 
                 transform: rotate(-50deg);
                 top:40px;

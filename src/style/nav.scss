@@ -1,10 +1,10 @@
 @import "vars";
 nav {
-    background-color: darken($background, 4%);
+    background: linear-gradient($background, darken($background, 10%));
     a {
         display: inline-block;
-        padding: 12px 12px;
-        font-size: 24px;
+        padding: 18px 12px;
+        font-size: 18px;
         color: $color;
         text-transform: uppercase;
     }

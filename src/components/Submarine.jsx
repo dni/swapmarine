@@ -1,8 +1,9 @@
 import "../style/submarine.scss";
-const Submarine = () => {
+const Submarine = (params) => {
+    params.circle = "0";
     return (
         <div class="sea">
-            <div class="circle-wrapper">
+            <div class={params.circle === "1" ? "circle-wrapper" : ""}>
                 <div class="bubble"></div>
                 <div class="submarine-wrapper">
                     <div class="submarine-body">

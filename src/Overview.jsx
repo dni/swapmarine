@@ -10,7 +10,7 @@ const Overview = () => {
 
     return (
         <div id="overview">
-            <Submarine />
+            <Submarine circle="1" />
             <h1>Swapmarine<small>Lightning enabled Liquid BTC Wallet via Submarine Swaps by Boltz</small></h1>
             <button onClick={() => navigate("/wallet")}>Create Wallet</button>
         </div>
