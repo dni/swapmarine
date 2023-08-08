@@ -12,7 +12,6 @@ const [mnemonic, setMnemonic] = createSignal(null);
 const [seed, setSeed] = createSignal(null);
 const [addresses, setAddresses] = createSignal([]);
 const [addressIndex, setAddressIndex] = createStorageSignal("addressIndex", 0);
-
 const create_seed = async () => {
     try {
         const mnemonic = generateMnemonic()
@@ -24,7 +23,6 @@ const create_seed = async () => {
         console.log(err)
     }
 }
-
 const delete_wallet = () => {
     setAddressIndex(0);
     setMnemonic();
@@ -41,8 +39,17 @@ const Addresses = () => {
         const nodeBlinding = slip77.fromSeed(seed().toString("hex"), regtest)
         for (let i = 0; i < addressIndex(); i++) {
             let child = node.derivePath(derivePath + i)
-            let p2wpkh = payments.p2wpkh({ pubkey: child.publicKey, network: regtest });
-            let blindingKeyPair = nodeBlinding.derive(p2wpkh.output)
+            const blindingKeyPair = nodeBlinding.derive(
+                payments.p2wpkh({
+                    pubkey: child.publicKey,
+                    network: regtest,
+                }).output
+            );
+            let p2wpkh = payments.p2wpkh({
+                pubkey: child.publicKey,
+                network: regtest,
+                blindkey: blindingKeyPair.publicKey,
+            });
             addresses.push({
                 i: i,
                 derivePath: derivePath + i,
@@ -92,9 +99,56 @@ const Overview = () => {
     );
 };
 
+const createInvoice = () => {
+    console.log("createInvoice")
+};
+
+const [amount, setAmount] = createSignal(100000);
 const Receive = () => {
     return (
-        <p>hello, receive!</p>
+        <>
+            <h1>{parseInt(amount()).toLocaleString("en").replaceAll(",", " ")} sats</h1>
+            <div id="receive" class="box">
+                <div id="tags">
+                    <button class="btn-small" onClick={() => setAmount(10000)}>10k</button>
+                    <button class="btn-small" onClick={() => setAmount(50000)}>50k</button>
+                    <button class="btn-small" onClick={() => setAmount(100000)}>100k</button>
+                    <button class="btn-small" onClick={() => setAmount(1000000)}>1m</button>
+                    <button class="btn-small" onClick={() => setAmount(10000000)}>10m</button>
+                </div>
+                <input
+                  type="range"
+                  id="satSlider"
+                  class="slider"
+                  min="0"
+                  max="999"
+                  step="1"
+                  value={amount()}
+                  onInput={e => setAmount(e.currentTarget.value)}
+                  />
+                <input
+                  type="range"
+                  id="satSlider"
+                  class="slider"
+                  min="0"
+                  max="999000"
+                  step="1000"
+                  value={amount()}
+                  onInput={e => setAmount(e.currentTarget.value)}
+                  />
+                <input
+                  type="range"
+                  id="satSlider"
+                  class="slider"
+                  min="0"
+                  max="10000000"
+                  step="1000000"
+                  value={amount()}
+                  onInput={e => setAmount(e.currentTarget.value)}
+                  />
+                <button onClick={createInvoice}>Create Invoice</button>
+            </div>
+        </>
     );
 };
 
