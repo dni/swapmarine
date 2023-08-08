@@ -1,5 +1,6 @@
 import "./style/nav.scss";
-// import { createSignal } from "solid-js";
+import { createSignal, createEffect } from "solid-js";
+import { createStorageSignal } from "@solid-primitives/storage";
 import { useParams, A } from "@solidjs/router";
 import { networks, payments, } from 'liquidjs-lib'
 import { bip32, slip77 } from './ecpair/ecpair'
@@ -7,33 +8,23 @@ import { generateMnemonic, mnemonicToSeed } from 'bip39'
 
 const regtest = networks.regtest
 
-import { createStorageSignal } from "@solid-primitives/storage";
-
-const [mnemonic, setMnemonic] = createStorageSignal("mnemonic", null);
-const [seed, setSeed] = createStorageSignal("seed", null);
+const [mnemonic, setMnemonic] = createSignal(null);
+// const [mnemonic, setMnemonic] = createStorageSignal("mnemonic", null);
+const [seed, setSeed] = createSignal(null);
+// const [seed, setSeed] = createStorageSignal("seed", null);
 const [address, setAddress] = createStorageSignal("address", null);
-const [addressIndex, setAddressIndex] = createStorageSignal("addressIndexx", 0);
+const [addresses, setAddresses] = createSignal([]);
+const [addressIndex, setAddressIndex] = createStorageSignal("addressIndex", 0);
 const [blindingPublicKey, setBlindingPublicKey] = createStorageSignal("blindingPublicKey", null);
 const [blindingPrivateKey, setBlindingPrivateKey] = createStorageSignal("blindingPrivateKey", null);
 
-const create_wallet = async () => {
+const create_seed = async () => {
     try {
         const mnemonic = generateMnemonic()
         const seed = await mnemonicToSeed(mnemonic)
-        const node = bip32.fromSeed(seed, regtest)
-        // workaround for browsers, Expected Buffer got Buffer3???
-        const nodeBlinding = slip77.fromSeed(seed.toString("hex"), regtest)
-
-        const child = node.derivePath(`m/44'/0'/0'/${addressIndex()}`)
-        const p2wpkh = payments.p2wpkh({ pubkey: child.publicKey, network: regtest })
-
-        // Now we pass the scriptPubKey down to the derive function to get the corresponding blinding key
-        const blindingKeyPair = nodeBlinding.derive(p2wpkh.output)
         setMnemonic(mnemonic);
-        setSeed(seed.toString("hex"));
-        setAddress(p2wpkh.address);
-        setBlindingPublicKey(blindingKeyPair.publicKey.toString("hex"));
-        setBlindingPrivateKey(blindingKeyPair.privateKey.toString("hex"));
+        console.log(mnemonic, seed)
+        setSeed(seed);
     } catch (err) {
         console.log(err)
     }
@@ -42,25 +33,63 @@ const create_wallet = async () => {
 const delete_wallet = () => {
     setAddressIndex(0);
     setMnemonic();
-    setAddress();
     setSeed();
-    setBlindingPublicKey();
-    setBlindingPrivateKey();
+};
+const derivePath = "m/600'/0'/0'/";
+
+const Addresses = () => {
+
+    createEffect(() => {
+        const addresses = [];
+        const node = bip32.fromSeed(seed(), regtest);
+        // workaround for browsers, Expected Buffer got Buffer3???
+        const nodeBlinding = slip77.fromSeed(seed().toString("hex"), regtest)
+        for (let i = 0; i < addressIndex(); i++) {
+            let child = node.derivePath(derivePath + i)
+            let p2wpkh = payments.p2wpkh({ pubkey: child.publicKey, network: regtest });
+            let blindingKeyPair = nodeBlinding.derive(p2wpkh.output)
+            addresses.push({
+                i: i,
+                derivePath: derivePath + i,
+                p2wpkh: p2wpkh.address,
+                blindingPublicKey: blindingKeyPair.publicKey,
+                blindingPrivateKey: blindingKeyPair.privateKey,
+            });
+        }
+        setAddresses([]);
+        setAddresses(addresses);
+    });
+
+    return (
+        <div class="addresses">
+            <For each={addresses()}>
+                {(address) => (
+                    <div class="address">
+                        <p>Address #{address.i}: {address.p2wpkh}</p>
+                        <p>Derive Path: {address.derivePath}</p>
+                        <p>Blinding Public Key: {address.blindingPublicKey.toString("hex")}</p>
+                        <p>Blinding Private Key: {address.blindingPrivateKey.toString("hex")}</p>
+                    </div>
+                )}
+            </For>
+        </div>
+    );
 };
 
 const Overview = () => {
     return (
         <>
-            <Show when={!mnemonic()}>
-                <button onClick={create_wallet}>Create Wallet</button>
+            <Show when={!seed()}>
+                <button onClick={create_seed}>Create Seed</button>
             </Show>
             <Show when={mnemonic()}>
                 <p>Mnemonic: {mnemonic()}</p>
-                <p>Seed: {seed()}</p>
-                <p>Address #{addressIndex()}: {address()}</p>
-                <p>Blinding Public Key: {blindingPublicKey()}</p>
-                <p>Blinding Private Key: {blindingPrivateKey()}</p>
-                <button onClick={delete_wallet}>Delete Wallet</button>
+            </Show>
+            <Show when={seed()}>
+                <p>Seed: {seed().toString("hex")}</p>
+                <Addresses />
+                <button onClick={() => setAddressIndex(parseInt(addressIndex()) + 1)}>Add Address</button>
+                <button onClick={delete_wallet}>Delete Seed</button>
             </Show>
         </>
     );
