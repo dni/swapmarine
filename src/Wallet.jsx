@@ -103,12 +103,17 @@ const createInvoice = () => {
     console.log("createInvoice")
 };
 
-const [amount, setAmount] = createSignal(100000);
+let inputSats, inputThousands, inputMillions;
+const [amount, setAmount] = createSignal(0);
 const Receive = () => {
+    const setAmounts = () => {
+        setAmount(parseInt(inputSats.value) + parseInt(inputThousands.value) + parseInt(inputMillions.value));
+    };
     return (
         <>
             <h1>{parseInt(amount()).toLocaleString("en").replaceAll(",", " ")} sats</h1>
             <div id="receive" class="box">
+                {/*
                 <div id="tags">
                     <button class="btn-small" onClick={() => setAmount(10000)}>10k</button>
                     <button class="btn-small" onClick={() => setAmount(50000)}>50k</button>
@@ -116,35 +121,36 @@ const Receive = () => {
                     <button class="btn-small" onClick={() => setAmount(1000000)}>1m</button>
                     <button class="btn-small" onClick={() => setAmount(10000000)}>10m</button>
                 </div>
+                //*/}
                 <input
+                  ref={inputSats}
                   type="range"
-                  id="satSlider"
                   class="slider"
+                  value="0"
                   min="0"
                   max="999"
                   step="1"
-                  value={amount()}
-                  onInput={e => setAmount(e.currentTarget.value)}
+                  onInput={() => setAmounts()}
                   />
                 <input
+                  ref={inputThousands}
                   type="range"
-                  id="satSlider"
                   class="slider"
+                  value="0"
                   min="0"
                   max="999000"
                   step="1000"
-                  value={amount()}
-                  onInput={e => setAmount(e.currentTarget.value)}
+                  onInput={() => setAmounts()}
                   />
                 <input
+                  ref={inputMillions}
                   type="range"
-                  id="satSlider"
                   class="slider"
+                  value="0"
                   min="0"
                   max="10000000"
                   step="1000000"
-                  value={amount()}
-                  onInput={e => setAmount(e.currentTarget.value)}
+                  onInput={() => setAmounts()}
                   />
                 <button onClick={createInvoice}>Create Invoice</button>
             </div>
