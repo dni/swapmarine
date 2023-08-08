@@ -6,6 +6,9 @@ nav {
         padding: 18px 12px;
         font-size: 18px;
         color: $color;
-        text-transform: uppercase;
+        text-decoration: none;
+        &:hover {
+            background-color: transparentize($primary, 0.8);
+        }
     }
 }

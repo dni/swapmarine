@@ -106,10 +106,10 @@ const Navigation = () => {
     return (
         <nav>
             <A href="/">home</A>
-            <A href="/wallet">Overview</A>
-            <A href="/wallet/receive">Receive</A>
-            <A href="/wallet/send">Send</A>
-            <A href="/wallet/history">History</A>
+            <A href="/wallet">overview</A>
+            <A href="/wallet/receive">receive</A>
+            <A href="/wallet/send">send</A>
+            <A href="/wallet/history">history</A>
         </nav>
     );
 };

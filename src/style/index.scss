@@ -11,8 +11,8 @@ html {
 body {
     font-size: 14px;
     margin: 0;
-    background: $background;
     background: linear-gradient($background, darken($background, 10%));
+    background-attachment: fixed;
     color: $color;
     font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
